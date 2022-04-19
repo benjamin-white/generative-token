@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
+.root {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
