@@ -10,7 +10,9 @@
     "start": "webpack serve --config ./config/webpack.config.dev.js"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "d3-delaunay": "^6.0.2",
+    "lodash": "^4.17.21",
+    "poisson-disk-sampling": "^2.2.3"
   },
   "devDependencies": {
     "adm-zip": "^0.5.9",
