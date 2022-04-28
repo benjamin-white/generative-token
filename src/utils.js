@@ -1,6 +1,6 @@
 import PoissonDiskSampling from 'poisson-disk-sampling'
 
-export const scatterPoints = (settings, RNG=Math.random) => {
+export const scatterPoints = (settings, RNG=fxrand) => {
 
   const defaults = {
     shape: [500, 500],
