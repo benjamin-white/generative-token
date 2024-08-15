@@ -1,32 +1,35 @@
 import { debounce } from 'lodash'
-import { printCanvasToImage } from './utils'
+import { printCanvasToImage } from './lib/utils/canvas-to-image'
 
 const canvas = (draw, config, rootNode) => {
-  
-  const canvas         = document.createElement('canvas')
-  const canvasCTX      = canvas.getContext('2d', {alpha: false})
-  const printCanvas    = document.createElement('canvas')
-  const printCanvasCTX = printCanvas.getContext('2d', {alpha: false})
+  const canvas = document.createElement('canvas')
+  const canvasCTX = canvas.getContext('2d', { alpha: false })
+  const printCanvas = document.createElement('canvas')
+  const printCanvasCTX = printCanvas.getContext('2d', { alpha: false })
 
-  const setSize = size => {
+  const setSize = (size) => {
     canvas.width = size
     canvas.height = size
   }
 
   const render = () => {
-    setSize(Math.min(window.innerWidth, window.innerHeight) - config.rootPadding)
-    draw({element: canvas, context: canvasCTX}, config)
+    setSize(
+      Math.min(window.innerWidth, window.innerHeight) - config.rootPadding
+    )
+    draw({ element: canvas, context: canvasCTX }, config)
   }
 
-  const print = (size = {width: 3000, height: 3000}) => {
+  const print = (size = { width: 3000, height: 3000 }) => {
     printCanvas.width = size.width
     printCanvas.height = size.height
-    draw({element: printCanvas, context: printCanvasCTX}, config)
-    printCanvasToImage(printCanvas)
+    draw({ element: printCanvas, context: printCanvasCTX }, config)
+    setTimeout(() => printCanvasToImage(printCanvas), 5000)
   }
-  
-  window.addEventListener('resize', debounce(render, 40, {leading: true}))
-  window.addEventListener('keyup', (event) => {event.key === 'p' && print()})
+
+  window.addEventListener('resize', debounce(render, 40, { leading: true }))
+  window.addEventListener('keyup', (event) => {
+    event.key === 'p' && print()
+  })
 
   render()
   rootNode.appendChild(canvas)
@@ -34,9 +37,8 @@ const canvas = (draw, config, rootNode) => {
   return {
     element: canvas,
     context: canvasCTX,
-    render
+    render,
   }
-
 }
 
 export default canvas
