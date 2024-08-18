@@ -1,41 +1,31 @@
+import Chroma from '@arklo/chroma'
+
 const config = {
   rootPadding: 50,
-  // Found and taken from https://coolors.co/
   palettes: [
     {
-      primary: '#e63946',
-      secondary: '#f1faee',
-      tertiary: '#a8dadc',
-      quaternary: '#457b9d',
-      quinary: '#1d3557',
+      primary: Chroma.swatches.japaneseElegance.whiteLinen,
+      secondary: Chroma.swatches.japaneseElegance.casper,
     },
     {
-      primary: '#390099',
-      secondary: '#9E0059',
-      tertiary: '#FF0054',
-      quaternary: '#FF5400',
-      quinary: '#FFBD00',
+      primary: Chroma.swatches.tokyoDawn.bitter,
+      secondary: Chroma.swatches.tokyoDawn.satinLinen,
     },
     {
-      primary: '#9C89B8',
-      secondary: '#F0A6CA',
-      tertiary: '#EFC3E6',
-      quaternary: '#F0E6EF',
-      quinary: '#B8BEDD',
+      primary: Chroma.swatches.nord.nordNight3,
+      secondary: Chroma.swatches.oxford.stalk2,
     },
     {
-      primary: '#353535',
-      secondary: '#3C6E71',
-      tertiary: '#FFFFFF',
-      quaternary: '#D9D9D9',
-      quinary: '#284B63',
-    }
+      primary: Chroma.swatches.oxford.petal4,
+      secondary: Chroma.swatches.revival.neptune3,
+    },
   ],
   dispMaps: [
-    './dist-maps/torus2.png',
-    './dist-maps/torus.png',
-    './dist-maps/circle.png',
-  ]
+    './dist-maps/dist-map-001.png',
+    './dist-maps/dist-map-002.png',
+    './dist-maps/dist-map-003.png',
+    './dist-maps/dist-map-004.png',
+  ],
 }
 
 export default config

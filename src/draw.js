@@ -1,6 +1,5 @@
 import Delaunay from './lib/delaunay'
 import { displacementFromImage } from './lib/utils/displacement-from-image'
-import randomiseObject from './lib/utils/randomise-object'
 import random from './lib/utils/random'
 import { scatterPoints } from './lib/utils/scatter-points'
 
@@ -8,11 +7,8 @@ const draw = async (
   { context: ctx, element: canvas },
   { palettes, dispMaps }
 ) => {
-  const palette = randomiseObject(
-    palettes[Math.floor(random() * palettes.length)]
-  )
+  const palette = palettes[Math.floor(random() * palettes.length)]
   const dispMap = dispMaps[Math.floor(random() * dispMaps.length)]
-
   const dispPoints = await displacementFromImage(
     dispMap,
     canvas.width,
@@ -41,23 +37,17 @@ const draw = async (
     canvas.height - 0.5,
   ])
 
-  ctx.fillStyle = palette.tertiary
+  ctx.fillStyle = palette.primary
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  // ctx.fillStyle = palette.secondary + '46'
-  // // 'gather/create cells'
-  // ;[6, 12, 56, 99, 134, 162].forEach((i) => {
-  //   voronoi.renderCell(i, ctx)
-  // })
-  // ctx.fill()
-
-  ctx.beginPath()
   voronoi.delaunay.hull = [
     [-1000, -1000],
     [1000, 1000],
   ]
+
+  ctx.beginPath()
   voronoi.render(ctx)
-  ctx.strokeStyle = palette.primary
+  ctx.strokeStyle = palette.secondary
   ctx.stroke()
 }
 

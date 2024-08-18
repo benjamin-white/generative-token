@@ -90,6 +90,7 @@ export default class Voronoi {
       vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0
     }
   }
+
   render(context) {
     const buffer = context == null ? (context = new Path()) : undefined
     const {
@@ -97,7 +98,9 @@ export default class Voronoi {
       circumcenters,
       vectors,
     } = this
+
     if (hull.length <= 1) return null
+
     for (let i = 0, n = halfedges.length; i < n; ++i) {
       const j = halfedges[i]
       if (j < i) continue
@@ -107,21 +110,26 @@ export default class Voronoi {
       const yi = circumcenters[ti + 1]
       const xj = circumcenters[tj]
       const yj = circumcenters[tj + 1]
+
       this._renderSegment(xi, yi, xj, yj, context)
     }
-    // let h0,
-    //   h1 = hull[hull.length - 1]
-    // for (let i = 0; i < hull.length; ++i) {
-    //   ;(h0 = h1), (h1 = hull[i])
-    //   const t = Math.floor(inedges[h1] / 3) * 2
-    //   const x = circumcenters[t]
-    //   const y = circumcenters[t + 1]
-    //   const v = h0 * 4
-    //   const p = this._project(x, y, vectors[v + 2], vectors[v + 3])
-    //   if (p) this._renderSegment(x, y, p[0], p[1], context)
-    // }
+
+    let h0,
+      h1 = hull[hull.length - 1]
+
+    for (let i = 0; i < hull.length; ++i) {
+      ;(h0 = h1), (h1 = hull[i])
+      const t = Math.floor(inedges[h1] / 3) * 2
+      const x = circumcenters[t]
+      const y = circumcenters[t + 1]
+      const v = h0 * 4
+      const p = this._project(x, y, vectors[v + 2], vectors[v + 3])
+      if (p) this._renderSegment(x, y, p[0], p[1], context)
+    }
+
     return buffer && buffer.value()
   }
+
   renderBounds(context) {
     const buffer = context == null ? (context = new Path()) : undefined
     context.rect(
@@ -130,8 +138,10 @@ export default class Voronoi {
       this.xmax - this.xmin,
       this.ymax - this.ymin
     )
+
     return buffer && buffer.value()
   }
+
   renderCell(i, context) {
     const buffer = context == null ? (context = new Path()) : undefined
     const points = this._clip(i)
@@ -144,9 +154,11 @@ export default class Voronoi {
       if (points[i] !== points[i - 2] || points[i + 1] !== points[i - 1])
         context.lineTo(points[i], points[i + 1])
     }
+
     context.closePath()
     return buffer && buffer.value()
   }
+
   *cellPolygons() {
     const {
       delaunay: { points },
@@ -156,11 +168,13 @@ export default class Voronoi {
       if (cell) (cell.index = i), yield cell
     }
   }
+
   cellPolygon(i) {
     const polygon = new Polygon()
     this.renderCell(i, polygon)
     return polygon.value()
   }
+
   _renderSegment(x0, y0, x1, y1, context) {
     if (x0 < 10 || y0 < 10 || x1 < 10 || y1 < 10) return
     if (
@@ -181,10 +195,12 @@ export default class Voronoi {
       context.lineTo(S[2], S[3])
     }
   }
+
   contains(i, x, y) {
     if (((x = +x), x !== x) || ((y = +y), y !== y)) return false
     return this.delaunay._step(i, x, y) === i
   }
+
   *neighbors(i) {
     const ci = this._clip(i)
     if (ci)
@@ -207,6 +223,7 @@ export default class Voronoi {
           }
       }
   }
+
   _cell(i) {
     const {
       circumcenters,
@@ -225,6 +242,7 @@ export default class Voronoi {
     } while (e !== e0 && e !== -1)
     return points
   }
+
   _clip(i) {
     // degenerate case (1 valid point: return the box)
     if (i === 0 && this.delaunay.hull.length === 1) {
@@ -247,6 +265,7 @@ export default class Voronoi {
       ? this._clipInfinite(i, points, V[v], V[v + 1], V[v + 2], V[v + 3])
       : this._clipFinite(i, points)
   }
+
   _clipFinite(i, points) {
     const n = points.length
     let P = null
@@ -303,6 +322,7 @@ export default class Voronoi {
     }
     return P
   }
+
   _clipSegment(x0, y0, x1, y1, c0, c1) {
     while (true) {
       if (c0 === 0 && c1 === 0) return [x0, y0, x1, y1]
@@ -322,6 +342,7 @@ export default class Voronoi {
       else (x1 = x), (y1 = y), (c1 = this._regioncode(x1, y1))
     }
   }
+
   _clipInfinite(i, points, vx0, vy0, vxn, vyn) {
     let P = Array.from(points),
       p
@@ -353,6 +374,7 @@ export default class Voronoi {
     }
     return P
   }
+
   _edge(i, e0, e1, P, j) {
     while (e0 !== e1) {
       let x, y
@@ -388,6 +410,7 @@ export default class Voronoi {
         P.splice(j, 0, x, y), (j += 2)
       }
     }
+
     if (P.length > 4) {
       for (let i = 0; i < P.length; i += 2) {
         const j = (i + 2) % P.length,
@@ -399,8 +422,10 @@ export default class Voronoi {
           P.splice(j, 2), (i -= 2)
       }
     }
+
     return j
   }
+
   _project(x0, y0, vx, vy) {
     let t = Infinity,
       c,
@@ -430,12 +455,14 @@ export default class Voronoi {
     }
     return [x, y]
   }
+
   _edgecode(x, y) {
     return (
       (x === this.xmin ? 0b0001 : x === this.xmax ? 0b0010 : 0b0000) |
       (y === this.ymin ? 0b0100 : y === this.ymax ? 0b1000 : 0b0000)
     )
   }
+
   _regioncode(x, y) {
     return (
       (x < this.xmin ? 0b0001 : x > this.xmax ? 0b0010 : 0b0000) |

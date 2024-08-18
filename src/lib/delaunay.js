@@ -3,8 +3,8 @@ import Path from './utils/path.js'
 import Polygon from './utils/polygon.js'
 import Voronoi from './voronoi.js'
 
-const tau = 2 * Math.PI,
-  pow = Math.pow
+const tau = 2 * Math.PI
+const pow = Math.pow
 
 function pointX(p) {
   return p[0]
@@ -41,6 +41,7 @@ export default class Delaunay {
         : Float64Array.from(flatIterable(points, fx, fy, that))
     )
   }
+
   constructor(points) {
     this._delaunator = new Delaunator(points)
     this.inedges = new Int32Array(points.length / 2)
@@ -48,11 +49,13 @@ export default class Delaunay {
     this.points = this._delaunator.coords
     this._init()
   }
+
   update() {
     this._delaunator.update()
     this._init()
     return this
   }
+
   _init() {
     const d = this._delaunator,
       points = this.points
@@ -115,9 +118,11 @@ export default class Delaunay {
       }
     }
   }
+
   voronoi(bounds) {
     return new Voronoi(this, bounds)
   }
+
   *neighbors(i) {
     const { inedges, hull, _hullIndex, halfedges, triangles, collinear } = this
 
@@ -145,6 +150,7 @@ export default class Delaunay {
       }
     } while (e !== e0)
   }
+
   find(x, y, i = 0) {
     if (((x = +x), x !== x) || ((y = +y), y !== y)) return -1
     const i0 = i
@@ -152,6 +158,7 @@ export default class Delaunay {
     while ((c = this._step(i, x, y)) >= 0 && c !== i && c !== i0) i = c
     return c
   }
+
   _step(i, x, y) {
     const { inedges, hull, _hullIndex, halfedges, triangles, points } = this
     if (inedges[i] === -1 || !points.length)
@@ -178,6 +185,7 @@ export default class Delaunay {
     } while (e !== e0)
     return c
   }
+
   render(context) {
     const buffer = context == null ? (context = new Path()) : undefined
     const { points, halfedges, triangles } = this
@@ -192,6 +200,7 @@ export default class Delaunay {
     this.renderHull(context)
     return buffer && buffer.value()
   }
+
   renderPoints(context, r) {
     if (r === undefined && (!context || typeof context.moveTo !== 'function'))
       (r = context), (context = null)
@@ -206,6 +215,7 @@ export default class Delaunay {
     }
     return buffer && buffer.value()
   }
+
   renderHull(context) {
     const buffer = context == null ? (context = new Path()) : undefined
     const { hull, points } = this
@@ -219,11 +229,13 @@ export default class Delaunay {
     context.closePath()
     return buffer && buffer.value()
   }
+
   hullPolygon() {
     const polygon = new Polygon()
     this.renderHull(polygon)
     return polygon.value()
   }
+
   renderTriangle(i, context) {
     const buffer = context == null ? (context = new Path()) : undefined
     const { points, triangles } = this
@@ -236,12 +248,14 @@ export default class Delaunay {
     context.closePath()
     return buffer && buffer.value()
   }
+
   *trianglePolygons() {
     const { triangles } = this
     for (let i = 0, n = triangles.length / 3; i < n; ++i) {
       yield this.trianglePolygon(i)
     }
   }
+
   trianglePolygon(i) {
     const polygon = new Polygon()
     this.renderTriangle(i, polygon)
@@ -257,6 +271,7 @@ function flatArray(points, fx, fy, that) {
     array[i * 2] = fx.call(that, p, i, points)
     array[i * 2 + 1] = fy.call(that, p, i, points)
   }
+
   return array
 }
 

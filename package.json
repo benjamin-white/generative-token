@@ -11,6 +11,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@arklo/chroma": "^1.1.0",
     "d3-delaunay": "^6.0.2",
     "delaunator": "^5.0.1",
     "lodash": "^4.17.21",

@@ -7,13 +7,9 @@ const obj = {
 }
 
 test('the object length to be preserved', () => {
-
-  expect(Object.keys(randomiseObject(obj)).length).toBe(3);
-
+  expect(Object.keys(randomiseObject(obj)).length).toBe(3)
 })
 
 test('the order of keys should be maintained', () => {
-
-  expect(Object.keys(randomiseObject(obj))).toEqual(Object.keys(obj));
-
+  expect(Object.keys(randomiseObject(obj))).toEqual(Object.keys(obj))
 })

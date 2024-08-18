@@ -12,10 +12,16 @@ const canvas = (draw, config, rootNode) => {
     canvas.height = size
   }
 
+  const upScale = (canvas, context, [sizeX, sizeY], multiplier = 2) => {
+    canvas.width = sizeX * multiplier
+    canvas.height = sizeY * multiplier
+    context.scale(multiplier, multiplier)
+    canvas.style.width = `${sizeX}px`
+    canvas.style.height = `${sizeY}px`
+  }
+
   const render = () => {
-    setSize(
-      Math.min(window.innerWidth, window.innerHeight) - config.rootPadding
-    )
+    setSize(1000, 1000)
     draw({ element: canvas, context: canvasCTX }, config)
   }
 
@@ -23,7 +29,7 @@ const canvas = (draw, config, rootNode) => {
     printCanvas.width = size.width
     printCanvas.height = size.height
     draw({ element: printCanvas, context: printCanvasCTX }, config)
-    setTimeout(() => printCanvasToImage(printCanvas), 5000)
+    printCanvasToImage(printCanvas)
   }
 
   window.addEventListener('resize', debounce(render, 40, { leading: true }))
