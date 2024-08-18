@@ -10,12 +10,12 @@ npm i && npm run dev
 
 **Each render of the `<canvas />` will produce a random iteration:**
 
-<img src="docs/render-001.png" width="300px"/>
-<img src="docs/render-002.png" width="300px"/>
-<img src="docs/render-003.png" width="300px"/>
-<img src="docs/render-004.png" width="300px"/>
-<img src="docs/render-005.png" width="300px"/>
-<img src="docs/render-006.png" width="300px"/>
+<img src="docs/render-001.png" width="800px"/>
+<img src="docs/render-002.png" width="800px"/>
+<img src="docs/render-003.png" width="800px"/>
+<img src="docs/render-004.png" width="800px"/>
+<img src="docs/render-005.png" width="800px"/>
+<img src="docs/render-006.png" width="800px"/>
 
 **To build the project to `/dist`:**
 
